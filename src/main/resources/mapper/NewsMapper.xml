@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.2//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="NewsMapper">
+
+    <insert id="add" parameterType="BikeMessages" >
+      <![CDATA[
+        INSERT  INTO  bike_news (uuid,title,frontcover_img,summary,create_time,author_uuid,content,type_uuid,display_form,status_id,show_type_id)
+                  VALUE (#{uuid},#{title},#{frontcoverImg},#{summary},now(),#{authorUuid},#{content},#{typeUuid},#{displayForm},#{statusId},#{showTypeId});
+      ]]>
+    </insert>
+
+    <select id="new_list" resultType="BikeMessages" parameterType="BikeMessages">
+
+        SELECT
+            bn.*,bt.`name` as typeName
+        FROM
+            bike_news AS bn
+
+        LEFT JOIN bike_new_type as bt on bt.uuid = bn.type_uuid
+
+
+        where 1=1
+
+        <if test="statusId != null">
+            and bn.status_id = #{statusId}
+        </if>
+        <if test="typeUuid != null">
+            and bn.type_uuid = #{typeUuid}
+        </if>
+        <if test="uuid != null">
+            and bn.uuid = #{uuid}
+        </if>
+
+
+    </select>
+
+
+    <!--修改-->
+    <update id="updateNew" parameterType="BikeMessages" >
+
+        UPDATE bike_news set
+
+        title = #{title},
+        frontcover_img = #{frontcoverImg},
+        summary = #{summary},
+        content = #{content},
+        type_uuid = #{typeUuid},
+        display_form = #{displayForm}
+
+        where uuid = #{uuid}
+
+    </update>
+
+    <update id="updateStatus" parameterType="map">
+
+        update bike_news set status_id = #{statusId} where uuid = #{uuid}
+
+    </update>
+
+    <!--查询相似信息-->
+    <select id="message_in_tags" resultType="BikeMessages" parameterType="string">
+
+        SELECT
+        bn.*
+        FROM
+        tag_news AS tn
+        INNER JOIN bike_tag AS bt ON bt.uuid = tn.tag_uuid
+        INNER JOIN bike_news AS bn ON bn.uuid = tn.new_uuid
+        WHERE
+        tn.tag_uuid IN (
+        SELECT
+        tn.tag_uuid
+        FROM
+        tag_news AS tn
+        WHERE
+        tn.new_uuid = #{newUUID}
+        )
+        LIMIT 6
+
+
+
+    </select>
+
+    <select id="newsByTJCount" parameterType="map" resultType="int">
+
+        SELECT
+          count(bn.uuid)
+        FROM
+        bike_news AS bn
+
+        <if test="tagUUID != null and tagUUID != ''">
+            LEFT JOIN tag_news as tn on tn.new_uuid = bn.uuid
+        </if>
+
+        WHERE 1=1
+
+        <if test="typeUUID != null and typeUUID != ''">
+            and bn.type_uuid = #{typeUUID}
+        </if>
+
+        <if test="tagUUID != null and tagUUID !=''">
+            and tn.tag_uuid = #{tagUUID}
+        </if>
+
+    </select>
+
+    <select id="newsByTJ" parameterType="map" resultType="BikeMessages">
+
+        SELECT
+            *
+        FROM
+            bike_news AS bn
+
+       <if test="tagUUID != null and tagUUID != ''">
+           LEFT JOIN tag_news as tn on tn.new_uuid = bn.uuid
+       </if>
+
+        WHERE 1=1
+
+        <if test="typeUUID != null and typeUUID != ''">
+            and bn.type_uuid = #{typeUUID}
+        </if>
+
+        <if test="tagUUID != null and tagUUID !=''">
+            and tn.tag_uuid = #{tagUUID}
+        </if>
+
+
+        LIMIT #{pageNo},#{pageEnd}
+
+    </select>
+
+</mapper>

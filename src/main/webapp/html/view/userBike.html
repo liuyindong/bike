@@ -1,0 +1,104 @@
+
+<div class="page-title">
+
+    <div class="title-env">
+        <h1 class="title">骑行记录</h1>
+        <p class="description"></p>
+    </div>
+
+    <div class="breadcrumb-env">
+
+        <ol class="breadcrumb bc-1">
+            <li>
+                <a href="#/"><i class="fa-home"></i>首页</a>
+            </li>
+            <li class="active">
+
+                <a href="#/userBike.html">骑行记录</a>
+            </li>
+        </ol>
+
+    </div>
+
+</div>
+
+<div infinite-scroll='bike.nextPage()' infinite-scroll-disabled='bike.busy' infinite-scroll-distance='0'>
+
+
+
+<div class="panel panel-default"   ng-repeat='bike in bike.items'>
+
+    <a href="#/activities/{{bike.id}}/overview.html">
+
+        <div class="panel-heading">
+            <strong>{{ bike.startTime | date:'yyyy-MM-dd HH:mm:ss' }}</strong>
+        </div>
+        <div class="panel-body" >
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <p class="text-medium">没有记录</p>
+                    <div class="super-large text-secondary">{{bike.totalDistance}} km</div>
+                </div>
+                <div class="col-sm-3">
+                    <div id="reqs-per-second" style="height: 150px;font-size:16px">
+
+                        <div class="xe-widget xe-counter" style="margin-bottom:0">
+                            <div class="xe-icon">
+                                <i class="fa-bicycle"></i>
+                            </div>
+                            <div class="xe-label">
+                                <strong class="num">{{bike.avgSpeed}}</strong>
+                                <span>平均速度(km/h)</span>
+                            </div>
+                        </div>
+
+
+                        <div class="bs-example">
+
+                            <div class="label label-info">平均心率：{{bike.avgHeartRate}}</div>
+                            <div class="label label-info">平均踏频：{{bike.avgCadence}}</div>
+                            <div class="label label-info">平均功率：{{bike.avgPower}}</div>
+
+                        </div>
+
+                        <div class="bs-example">
+
+                            <div class="label label-info">最大心率：{{bike.maxHeartRate}}</div>
+                            <div class="label label-info">最大踏频：{{bike.maxCadence}}</div>
+                            <div class="label label-info">最大功率：{{bike.maxPower}}</div>
+
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div id="reqs-per-second-chart" style="height: 150px;">
+
+                        <img src="http://api.map.baidu.com/staticimage?width=707&height=150&center=116.581276001,39.9060794678&zoom=12&pathStyles=0xff0000,2,1&paths=116.6776505127,39.8956882324;116.676361145,39.8948947754;116.6755066528,39.8932315674;116.6734085693,39.8948222961;116.6715164795,39.896348175;116.6691513672,39.8974887695;116.6653290405,39.898629364;116.6628494873,39.8994037476;116.6600418701,39.9001972046;116.657371582,39.9009372559;116.6544495239,39.9018031921;116.6520157471,39.902863678;116.6505585327,39.9046794739;116.6494446411,39.9064266052;116.6479874268,39.9087077942;116.6469040527,39.9103786316;116.6455765381,39.9122974243;116.644317688,39.9137966003;116.6414185181,39.9145213928;116.63874823,39.9146243896;116.6349487915,39.9145786133;116.6329804077,39.9146396484;116.6305161133,39.9147388306;116.6278305664,39.9147884216;116.6244736328,39.9141628113;116.6211243286,39.9147006836;116.6181946411,39.9162647095;116.6140595093,39.9172183838;116.6109161987,39.9173328247;116.6090927734,39.9174091187;116.6072540894,39.9174014893;116.6038742676,39.9175350037;116.5997086182,39.9176456299;116.5964432373,39.9177257385;116.5928879395,39.9180805054;116.5889206543,39.9185344543;116.5857010498,39.9185878601;116.5835877075,39.9183208313;116.5804978027,39.9180118408;116.5766907349,39.9177371826;116.57284552,39.9176303711;116.5690308228,39.9175884094;116.5650787964,39.9175121155;116.561706604,39.9174701538;116.5581055298,39.9175540771;116.5553513184,39.9177905884;116.5528336182,39.91890448;116.549369873,39.9180766907;116.5462723389,39.9176647034;116.5430985107,39.9176341858;116.541053833,39.9177181091;116.5393295898,39.9177524414;116.5373459473,39.917706665;116.534690918,39.9174472656;116.5317078247,39.9168826904;116.5297394409,39.916497406;116.5268555298,39.9159137573;116.524093689,39.9158870544;116.5207749023,39.9159519043;116.516746582,39.9160053101;116.51374823,39.9160510864;116.5107575073,39.9161464539;116.5073013916,39.9161121216;116.5043717041,39.9161846008;116.501953186,39.9159633484;116.499496521,39.9158908691;116.4968872681,39.9158756104;116.4951706543,39.9153262939;116.4964447632,39.9141856995;116.4971848145,39.9125987854;116.4976883545,39.9103786316;116.498085083,39.9081203308;116.4980316772,39.906102356;116.4979630127,39.9037982788;116.4975128784,39.9016467896;116.4948959961,39.9010707703;116.4904099121,39.9010593262;116.4870682373,39.9010898438;116.4852905884,39.9008495178;116.4852600708,39.8980419006;116.4850464478,39.8953525391&copyright=1">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </a>
+
+
+</div>
+
+<div class="alert alert-info" ng-hide='reddit.busy' align="center"><strong>已经没有数据了</strong></div>
+
+    <div class="progress" ng-show='reddit.busy'>
+        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+            <span class="sr-only">10% Complete (success)</span>
+        </div>
+    </div>
+
+
+
+</div>

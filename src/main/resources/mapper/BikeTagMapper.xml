@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.2//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="BikeTagMapper">
+
+    <insert id="addTag" parameterType="BikeTag">
+        insert into bike_tag (uuid,name) VALUE (#{uuid},#{name});
+    </insert>
+
+    <update id="update_weight" parameterType="BikeTag">
+        UPDATE bike_tag set weight = weight+1 where name = #{name};
+    </update>
+
+    <select id="tag_by_name" parameterType="String" resultType="BikeTag">
+        <![CDATA[
+          SELECT * from bike_tag as bt where bt.`name` = #{name};
+         ]]>
+    </select>
+
+    <insert id="addTagNews" parameterType="TagNews" >
+        INSERT INTO tag_news  (uuid,new_uuid,tag_uuid)VALUE(#{uuid},#{newUuid},#{tagUuid});
+    </insert>
+
+    <select id="tagBynewUUID" parameterType="string" resultType="BikeTag" >
+
+        SELECT
+            bt.*
+        FROM
+            tag_news AS tn
+
+        INNER JOIN bike_tag as bt on bt.uuid = tn.tag_uuid
+
+        WHERE
+            tn.new_uuid = #{newUUID}
+
+    </select>
+
+    <select id="bikeTagByTopNum" resultType="BikeTag" parameterType="int">
+
+        SELECT * from bike_tag as bt ORDER BY bt.weight desc LIMIT #{topNum}
+
+    </select>
+
+
+
+
+</mapper>

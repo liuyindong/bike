@@ -1,0 +1,69 @@
+<div class="panel panel-default">
+
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            上传码表数据 <small>(请确保码表与电脑连接)</small>
+        </h3>
+    </div>
+
+
+
+    <div class="panel-body">
+
+
+        <div class="row">
+
+            <div class="col-md-12" id = "errorMsgDiv" style="display:none;">
+                <div class="alert alert-danger">
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+
+                    <article id="errorMsg"></article>
+
+                </div>
+            </div>
+
+        </div>
+
+        <br />
+        <div class="row">
+
+            <div class="col-sm-3 text-center">
+
+                <div id="advancedDropzone" class="droppable-area">
+                    选择文件
+                </div>
+
+            </div>
+            <div class="col-sm-9">
+
+                <table class="table table-bordered table-striped" id="example-dropzone-filetable">
+                    <thead>
+                    <tr>
+                        <th width="1%" class="text-center">#</th>
+                        <th width="50%">名字</th>
+                        <th width="20%">进度</th>
+                        <th>大小</th>
+                        <th>状态</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td colspan="5">文件列表</td>
+                    </tr>
+
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+

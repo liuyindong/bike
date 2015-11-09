@@ -12,4 +12,6 @@ public interface UserService
     public User userLogin(String userName, String passWord);
 
     public void addUser(User user);
+
+    public User userById(String userId);
 }

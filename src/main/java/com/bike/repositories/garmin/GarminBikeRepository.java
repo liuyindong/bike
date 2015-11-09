@@ -1,4 +1,5 @@
 package com.bike.repositories.garmin;
+import org.springframework.data.domain.Sort;
 
 import com.bike.entity.Book;
 import com.bike.entity.garmin.GarminBike;
@@ -13,5 +14,5 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
  */
 public interface GarminBikeRepository extends ElasticsearchRepository<UserBikeFitSession,String>
 {
-    Page<UserBikeFitSession> findByUserId(String userId,Pageable pageable);
+    Page<UserBikeFitSession> findByUserIdOrderByStartTimeDesc(String userId,Pageable pageable);
 }

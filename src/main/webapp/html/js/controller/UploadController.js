@@ -110,21 +110,24 @@ BikeApp.controller('UploadController', ['$rootScope', '$scope', 'settings', func
                     file.fileEntryTd.find('td:last').html('<span class="text-success">上传成功</span>');
                     file.progressBar.removeClass('progress-bar-warning').addClass('progress-bar-success');
 
+/*
 
-                    /*var point = [];
+                    var point = [];
 
 
                     $.each(data.data.paths, function(index,obj)
                     {
-
-                        point.push(obj.y + "," + obj.x)
+                        point.push(obj.lon + "," + obj.lat)
                     });
 
 
-                    var imgUrl = "http://api.map.baidu.com/staticimage?width=422&height=355&center="+data.data.center.y + "," + data.data.center.x+"&zoom=11&pathStyles=0xff0000,2,1&paths="+point.join(";") + "&copyright=1";
+                    var imgUrl = "http://api.map.baidu.com/staticimage?width=980&height=170&center="+data.data.center.lon + 0.01 + "," + data.data.center.lat+"&zoom=11&pathStyles=0xff0000,2,1&paths="+point.join(";") + "&copyright=1";
 
 
-                    $("img").attr("src",imgUrl);*/
+               //     $("img").attr("src",imgUrl);
+
+                    console.log(imgUrl);
+*/
 
 
                 },

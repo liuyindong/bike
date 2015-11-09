@@ -25,4 +25,9 @@ public class UserServiceImpl extends ServerBase implements UserService {
     public void addUser(User user) {
         mongoTemplate.save(user);
     }
+
+    @Override
+    public User userById(String userId) {
+        return mongoTemplate.findById(userId,User.class);
+    }
 }

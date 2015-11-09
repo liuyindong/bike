@@ -10,17 +10,17 @@ import java.util.List;
  */
 public class FitResult
 {
-    private Point center;
+    private GeoPoint center;
 
     private int zoom;
 
     private List<GeoPoint> paths;
 
-    public Point getCenter() {
+    public GeoPoint getCenter() {
         return center;
     }
 
-    public void setCenter(Point center) {
+    public void setCenter(GeoPoint center) {
         this.center = center;
     }
 

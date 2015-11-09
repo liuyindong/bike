@@ -1,12 +1,10 @@
 package com.bike.entity.garmin;
 
+import com.bike.entity.User;
 import com.garmin.fit.SessionMesg;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
-import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldType;
-import org.springframework.data.elasticsearch.annotations.GeoPointField;
+import org.springframework.data.elasticsearch.annotations.*;
 import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
@@ -37,8 +35,7 @@ public class UserBikeFitSession
     @GeoPointField
     private List<GeoPoint> bikePoint;
 
-    @Field(type = FieldType.String)
-    private String userId;
+    private User user;
 
     private GarminBike garminBike;
 
@@ -73,15 +70,43 @@ public class UserBikeFitSession
     //总卡里路
     private Integer totalCalories;
 
+
+    @Field(
+            type = FieldType.Date,
+            index = FieldIndex.not_analyzed,
+            store = true
+            //format = DateFormat.custom //, pattern = "yyyy-MM.dd hh:mm"
+    )
     private Date startTime;
     private Date endTime;
 
     private String remarks;
 
+
     @Version
     private Long version;
 
+    // **前上传
+    private String longTime;
 
+    private String imgUrl ;
+
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public String getLongTime() {
+        return longTime;
+    }
+
+    public void setLongTime(String longTime) {
+        this.longTime = longTime;
+    }
 
     public String getRemarks() {
         return remarks;
@@ -275,12 +300,12 @@ public class UserBikeFitSession
         this.bikePoint = bikePoint;
     }
 
-    public String getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Long getVersion() {

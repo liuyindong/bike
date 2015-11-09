@@ -8,6 +8,7 @@ import com.bike.server.garmin.GarminBikeService;
 import com.bike.server.garmin.GarminService;
 import com.bike.util.Config;
 import com.mongodb.gridfs.GridFSDBFile;
+import org.elasticsearch.search.suggest.Suggest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -45,7 +46,7 @@ public class GarminBikeServiceImpl extends ServerBase implements GarminBikeServi
     @Override
     public Page<UserBikeFitSession> userBikeById(String id,Pageable pageable)
     {
-        return garminBikeRepository.findByUserId(id,pageable);
+        return garminBikeRepository.findByUserIdOrderByStartTimeDesc(id,pageable);
     }
 
     @Override

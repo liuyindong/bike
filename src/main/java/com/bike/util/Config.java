@@ -43,8 +43,8 @@ public class Config
 	private String resUrl;
 	
 	//搜索地址
-	@Value("${config.solrUrl}")
-	private String solrUrl;
+	@Value("${config.baiduImg}")
+	private String baiduImg;
 
 	@Value("${config.ACCESSKEY}")
 	private String ACCESSKEY;
@@ -187,15 +187,11 @@ public class Config
 		this.resUrl = resUrl;
 	}
 
-	public String getSolrUrl()
-	{
-		return solrUrl;
+	public String getBaiduImg() {
+		return baiduImg;
 	}
 
-	public void setSolrUrl(String solrUrl)
-	{
-		this.solrUrl = solrUrl;
+	public void setBaiduImg(String baiduImg) {
+		this.baiduImg = baiduImg;
 	}
-
-	
 }

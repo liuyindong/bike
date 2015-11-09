@@ -1408,7 +1408,7 @@ function stickFooterToBottom()
 {
 	public_vars.$mainFooter.add( public_vars.$mainContent ).add( public_vars.$sidebarMenu ).attr('style', '');
 	
-	if(isxs())
+	/*if(isxs())
 		return false;
 		
 	if(public_vars.$mainFooter.hasClass('sticky'))
@@ -1418,7 +1418,8 @@ function stickFooterToBottom()
 			main_content_height	  = public_vars.$mainFooter.position().top + footer_height,
 			main_content_height_only = main_content_height - footer_height,
 			extra_height			 = public_vars.$horizontalNavbar.outerHeight();
-		
+
+
 		
 		if(win_height > main_content_height - parseInt(public_vars.$mainFooter.css('marginTop'), 10))
 		{
@@ -1426,7 +1427,7 @@ function stickFooterToBottom()
 				marginTop: win_height - main_content_height - extra_height
 			});
 		}
-	}
+	}*/
 }
 
 

@@ -100,7 +100,8 @@ BikeApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider,
 
                         name: 'BikeApp',
                         files: [
-                            'js/controller/OverviewController.js'
+                            'js/controller/OverviewController.js',
+                            CDN_HOST + 'js/baidumap/dist/angular-baidu-map.min.js'
                         ]
 
                     });

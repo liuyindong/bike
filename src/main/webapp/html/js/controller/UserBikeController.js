@@ -1,17 +1,22 @@
 
 var BikeApp = angular.module("BikeApp",['infinite-scroll']);
 
-BikeApp.controller('UserBikeLoadController',function($scope,UserBike)
+
+BikeApp.controller('UserBikeLoadController',function($rootScope,$scope,UserBike)
 {
-    $scope.bike = new UserBike();
+    $scope.bike = new UserBike($rootScope);
+
+    $scope.layoutCssPath = $rootScope.settings.layoutCssPath+"/uploadFile/";
+
 });
 
-BikeApp.factory('UserBike', function($http) {
+BikeApp.factory('UserBike', function($rootScope,$http) {
     var UserBike = function() {
         this.items = [];
         this.busy = false;
         this.pageNo = 0;
     };
+
 
     UserBike.prototype.nextPage = function()
     {

@@ -1,6 +1,8 @@
 package com.bike.util.fit;
 
 
+import com.bike.util.WritePath;
+import com.bike.util.map.GaoDeGPS;
 import com.bike.entity.garmin.GarminBike;
 import com.bike.entity.garmin.LapBike;
 import com.bike.entity.garmin.UserBikeFitSession;
@@ -8,7 +10,6 @@ import com.bike.util.GarminUtil;
 import com.bike.util.MyConstants;
 import com.garmin.fit.*;
 import org.springframework.data.elasticsearch.core.geo.GeoPoint;
-import org.springframework.data.geo.Point;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,11 +85,14 @@ public class GarminBikeFitListener implements  SessionMesgListener,RecordMesgLis
         garminBike.addCadence(recordMesg.getCadence() != null ? recordMesg.getCadence() : 0);
         garminBike.addTemperature(recordMesg.getTemperature() != null ? recordMesg.getTemperature() : 0);
         garminBike.addAltitude(recordMesg.getAltitude() != null ? recordMesg.getAltitude() : 0);
-        garminBike.addCycleLength(recordMesg.getCycleLength() != null ?recordMesg.getCycleLength() : 0);
-        garminBike.addCycles(recordMesg.getCycles() != null ? recordMesg.getCycles() : 0);
+
+
+
+    //    garminBike.addCycleLength(recordMesg.getCycleLength() != null ?recordMesg.getCycleLength() : 0);
+    //    garminBike.addCycles(recordMesg.getCycles() != null ? recordMesg.getCycles() : 0);
         if (recordMesg.getPositionLat() != null && recordMesg.getPositionLong() != null)
         {
-            garminBike.addLocation(GarminUtil.toDegrees(recordMesg.getPositionLat()),GarminUtil.toDegrees(recordMesg.getPositionLong()));
+            garminBike.addLocation(GaoDeGPS.transformFromWGSToGCJ(new GeoPoint(GarminUtil.toDegrees(recordMesg.getPositionLat()),GarminUtil.toDegrees(recordMesg.getPositionLong()))));
         }
 
     }
@@ -109,8 +113,8 @@ public class GarminBikeFitListener implements  SessionMesgListener,RecordMesgLis
         lapBike.setAvgPower(mesg.getAvgPower());
         lapBike.setMaxPower(mesg.getMaxPower());
         lapBike.setTotalCalories(mesg.getTotalCalories());
-        lapBike.setStartPosition(new GeoPoint(GarminUtil.toDegrees(mesg.getStartPositionLong()),GarminUtil.toDegrees(mesg.getStartPositionLat())));
-        lapBike.setEndPosition(new GeoPoint(GarminUtil.toDegrees(mesg.getEndPositionLong()),GarminUtil.toDegrees(mesg.getEndPositionLat())));
+        lapBike.setStartPosition(GaoDeGPS.transformFromWGSToGCJ(new GeoPoint(GarminUtil.toDegrees(mesg.getStartPositionLat()),GarminUtil.toDegrees(mesg.getStartPositionLong()))));
+        lapBike.setEndPosition(GaoDeGPS.transformFromWGSToGCJ(new GeoPoint(GarminUtil.toDegrees(mesg.getEndPositionLat()),GarminUtil.toDegrees(mesg.getEndPositionLong()))));
         lapBike.setStartTime(mesg.getStartTime().getDate());
         lapBike.setEndTime(mesg.getTimestamp().getDate());
 

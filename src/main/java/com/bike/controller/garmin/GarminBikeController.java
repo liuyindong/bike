@@ -5,6 +5,8 @@ import com.bike.controller.ControllerBase;
 import com.bike.controller.util.RestAction;
 import com.bike.entity.Page;
 import com.bike.entity.User;
+import com.bike.entity.baidu.GeoconvResult;
+import com.bike.entity.baidu.PointXY;
 import com.bike.entity.garmin.*;
 import com.bike.server.garmin.GarminBikeService;
 import com.bike.server.garmin.GarminService;
@@ -12,10 +14,7 @@ import com.bike.server.garmin.LapBikeService;
 import com.bike.server.garmin.impl.GarminServiceImpl;
 import com.bike.server.user.UserService;
 import com.bike.server.util.ServiceUtil;
-import com.bike.util.Config;
-import com.bike.util.DateUtil;
-import com.bike.util.MyConstants;
-import com.bike.util.RelativeDateFormat;
+import com.bike.util.*;
 import com.garmin.fit.DateTime;
 import com.garmin.fit.LapMesg;
 import com.garmin.fit.RecordMesg;
@@ -28,10 +27,8 @@ import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,7 +42,7 @@ import java.util.*;
 /**
  * Created by zz on 2015/9/2.
  */
-@Controller
+@RestController
 @RequestMapping("/garmin")
 public class GarminBikeController extends ControllerBase implements RestAction {
     @Autowired
@@ -79,15 +76,14 @@ public class GarminBikeController extends ControllerBase implements RestAction {
 
 
     @RequestMapping("/userBike")
-    @ResponseBody
-    public Object userBikeById(Integer pageNo)
+    public Object userBikeByUserId(Integer pageNo)
     {
 
 
 
         PageRequest pageRequest = new PageRequest(pageNo,5);
 
-       org.springframework.data.domain.Page<UserBikeFitSession> bikeFitSessionPage = garminBikeService.userBikeById(getUser().getId(), pageRequest);
+       org.springframework.data.domain.Page<UserBikeFitSession> bikeFitSessionPage = garminBikeService.userBikeByUserId(getUser().getId(), pageRequest);
 
         for (UserBikeFitSession userBikeFitSession:bikeFitSessionPage)
         {
@@ -99,6 +95,24 @@ public class GarminBikeController extends ControllerBase implements RestAction {
         return bikeFitSessionPage;
     }
 
+    @RequestMapping("/bikeMsgById/{id}")
+    public Object bikeMsgById(@PathVariable String id)
+    {
+    //    UserBikeFitSession userBikeFitSession = garminBikeService.bikeById(id);
+
+        UserBikeFitSession userBikeFitSession = garminService.getBikeFitSession(config.getUploadFilePath() + "admin/2015-11-12-08-23-23.fit");
+
+        userBikeFitSession.getGarminBike().setLocation(null);
+        userBikeFitSession.getGarminBike().setHeartRate(null);
+        userBikeFitSession.getGarminBike().setAltitude(null);
+        userBikeFitSession.getGarminBike().setSpeed(null);
+        userBikeFitSession.getGarminBike().setPower(null);
+        userBikeFitSession.getGarminBike().setTemperature(null);
+
+        return userBikeFitSession;
+
+    }
+
 
     @RequestMapping("/toupload")
     public String toUploadFit() {
@@ -107,7 +121,6 @@ public class GarminBikeController extends ControllerBase implements RestAction {
 
 
     @RequestMapping("/upload")
-    @ResponseBody
     public Object fitUpload(@RequestParam MultipartFile file,HttpSession session,HttpServletResponse response) {
         try
         {
@@ -118,44 +131,52 @@ public class GarminBikeController extends ControllerBase implements RestAction {
             UserBikeFitSession userBikeFitSession = garminService.getBikeFitSession(file.getInputStream());
             userBikeFitSession.setUser(getUser());
 
-            String name = getUser().getUserName() + "/" + DateUtil.addressRadom(userBikeFitSession.getStartTime()) ;
+            String filePath = getUser().getUserName() + "/" + DateUtil.addressRadom(userBikeFitSession.getStartTime()) ;
+            String fileName = DateUtil.timeToString(userBikeFitSession.getStartTime(),dateType) + DateUtil.imgType(file.getOriginalFilename());
+            String fileUploadPath = config.getUploadFilePath() + filePath + fileName;
 
-            name += DateUtil.timeToString(userBikeFitSession.getStartTime(),dateType) + DateUtil.imgType(file.getOriginalFilename());
 
-            String path = config.getUploadFilePath() + "/uploadNow/" +name;
 
-            userBikeFitSession.setFitPath(name);
+            userBikeFitSession.setFitPath(filePath+fileName);
 
             //保存上传文件
-            int result = serviceUtil.uploadFile(file,path);
+            int result = serviceUtil.uploadFile(file,fileUploadPath);
 
+            //获取地图图片并且下载
             List<GeoPoint> geoPointList = userBikeFitSession.getGarminBike().getLocation();
-
-
             int listSite = geoPointList.size();
-
             int beiShuNum = listSite/50;
-
-
             GeoPoint centerGeoPint = geoPointList.get(listSite / 2);
-
-
-            StringBuffer url = new StringBuffer(config.getBaiduImg());
-            url.append("?width=1024&height=170&zoom=11");
-            url.append("&center=" +centerGeoPint.getLon() + "," + centerGeoPint.getLat());
+            StringBuilder url = new StringBuilder(config.getBaiduImg());
+            url.append("?width=1024&height=170");
+         //   url.append("&zoom=11&center=" +centerGeoPint.getLon() + "," + centerGeoPint.getLat());
             url.append("&copyright=1");
-            url.append("&pathStyles=0xff0000,4,1");
+            url.append("&pathStyles=0xff0000,3,1");
             url.append("&paths=");
 
-
+            //坐标转化
+            StringBuilder zuoBiao = new StringBuilder();
+            zuoBiao.append("http://api.map.baidu.com/geoconv/v1/?from=1&to=5&output=json&ak=A4145e587f79e35cb7029f060282ef98&coords=");
             for (int i = 1; i <=listSite; i+=beiShuNum)
             {
                 GeoPoint dianGepoint = geoPointList.get(i-1);
-
-                url.append(dianGepoint.getLon() + "," + dianGepoint.getLat() + ";");
+                zuoBiao.append(dianGepoint.getLon() + "," + dianGepoint.getLat() + ";");
             }
+            zuoBiao.setLength(zuoBiao.length() - 1);
+            RestTemplate restTemplate = new RestTemplate();
+            String resultString = restTemplate.getForObject(zuoBiao.toString(), String.class);
+            GeoconvResult geoconvResult =  JSON.parseObject(resultString, GeoconvResult.class);
 
-            userBikeFitSession.setImgUrl(url.toString());
+            if(geoconvResult.getStatus() == 0)
+            {
+                for(PointXY pointXY:geoconvResult.getResult())
+                {
+                    url.append(pointXY.getX()+","+pointXY.getY()+";");
+                }
+            }
+            String imgName = DateUtil.generateFileName("img.jpg");
+            DownImg.saveUrlAs(url.toString(),config.getUploadFilePath() + filePath + imgName);
+            userBikeFitSession.setImgUrl(filePath + imgName);
 
 
             garminBikeService.addGarminBikeFitSession(userBikeFitSession);
@@ -189,7 +210,6 @@ public class GarminBikeController extends ControllerBase implements RestAction {
     }
 
     @RequestMapping(value = "/addBikeGroup", method = RequestMethod.POST)
-    @ResponseBody
     public Object updateBikeGroup(String[] uploadName,String groupType,String groupNum,String remarks)
     {
         garminBikeService.updateBikeGroup(uploadName,groupType,groupNum,remarks);

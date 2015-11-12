@@ -44,7 +44,7 @@ public class GarminBikeServiceImpl extends ServerBase implements GarminBikeServi
     }
 
     @Override
-    public Page<UserBikeFitSession> userBikeById(String id,Pageable pageable)
+    public Page<UserBikeFitSession> userBikeByUserId(String id,Pageable pageable)
     {
         return garminBikeRepository.findByUserIdOrderByStartTimeDesc(id,pageable);
     }
@@ -56,5 +56,11 @@ public class GarminBikeServiceImpl extends ServerBase implements GarminBikeServi
         {
             mongoTemplate.updateFirst(query(where("id").is(id)),new Update().set("groupNumber", groupNum).set("groupType", groupType).set("remarks",remarks),UserBikeFitSession.class);
         }
+    }
+
+    @Override
+    public UserBikeFitSession bikeById(String id)
+    {
+        return garminBikeRepository.findOne(id);
     }
 }

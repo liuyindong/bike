@@ -87,6 +87,7 @@
                 <div class="col-sm-4">时长：{{bike.totalTimerHHmmSS}}</div>
                 <div class="col-sm-4">平均速度：{{bike.avgSpeed}} km/h</div>
 
+
             </blockquote>
 
 
@@ -94,7 +95,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <a href="#/activities/{{bike.id}}/overview.html">
-                        <img ng-src="{{bike.imgUrl}}"  class="img-responsive img-rounded full-width" />
+                        <img ng-src="{{layoutCssPath}}{{bike.imgUrl}}"  class="img-responsive img-rounded full-width" />
                     </a>
                 </div>
 

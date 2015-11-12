@@ -101,7 +101,9 @@ BikeApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider,
                         name: 'BikeApp',
                         files: [
                             'js/controller/OverviewController.js',
-                            CDN_HOST + 'js/baidumap/dist/angular-baidu-map.min.js'
+                            'assets/core.js',
+                            CDN_HOST + 'js/Highcharts-4.1.9/js/highcharts.js',
+                            CDN_HOST + 'js/Highcharts-4.1.9/js/modules/exporting.js'
                         ]
 
                     });

@@ -7,8 +7,8 @@ import com.bike.util.fit.GarminBikeFitListener;
 import com.garmin.fit.*;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.io.File;
 
 
 @Service
@@ -47,6 +47,21 @@ public class GarminServiceImpl extends ServerBase implements GarminService
 
 
         return listener.getUserBikeFitSessionMesg();
+    }
+
+    @Override
+    public UserBikeFitSession getBikeFitSession(String path)
+    {
+        FileInputStream in;
+
+
+
+        try {
+            in = new FileInputStream(path);
+        } catch (java.io.IOException e) {
+            throw new RuntimeException("Error opening file " + path + " [2]");
+        }
+        return getBikeFitSession(in);
     }
 
 

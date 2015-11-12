@@ -20,9 +20,11 @@ public interface GarminBikeService
 {
     public void addGarminBikeFitSession(UserBikeFitSession userBikeFitSession);
 
-    public Page<UserBikeFitSession> userBikeById(String id,Pageable pageable);
+    public Page<UserBikeFitSession> userBikeByUserId(String id,Pageable pageable);
 
     public void updateBikeGroup(String[] uploadName,String groupType,String groupNum,String remarks);
+
+    public UserBikeFitSession bikeById(String id);
 
 
 

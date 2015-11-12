@@ -1,15 +1,8 @@
 package com.bike.entity.garmin;
 
-import com.garmin.fit.DateTime;
-import com.garmin.fit.LapMesg;
-import com.garmin.fit.RecordMesg;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.GeoPointField;
 import org.springframework.data.elasticsearch.core.geo.GeoPoint;
-import org.springframework.data.geo.Point;
-import org.springframework.data.mongodb.core.index.CompoundIndex;
-import org.springframework.data.mongodb.core.index.CompoundIndexes;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,12 +31,11 @@ public class GarminBike
     private List<Byte> temperature;
     //海拔
     private List<Float> altitude;
+
     //坐标
     @GeoPointField
     private List<GeoPoint> location;
-    //
-    private List<Short> cycles;
-    private List<Float> cycleLength;
+
     //时间
     private List<Date> timestamp;
 
@@ -57,13 +49,6 @@ public class GarminBike
         this.id = id;
     }
 
-    public List<Short> getCycles() {
-        return cycles;
-    }
-
-    public void setCycles(List<Short> cycles) {
-        this.cycles = cycles;
-    }
 
     public List<Date> getTimestamp() {
         return timestamp;
@@ -73,13 +58,6 @@ public class GarminBike
         this.timestamp = timestamp;
     }
 
-    public List<Float> getCycleLength() {
-        return cycleLength;
-    }
-
-    public void setCycleLength(List<Float> cycleLength) {
-        this.cycleLength = cycleLength;
-    }
 
     public List<GeoPoint> getLocation() {
         return location;
@@ -208,20 +186,14 @@ public class GarminBike
         this.altitude.add(altitude);
     }
 
-    public void addLocation(final double lat,final double lon)
+    public void addLocation(GeoPoint geoPoint)
     {
         if (this.location == null) {
             this.location = new ArrayList<>(1);
         }
-        this.location.add(new GeoPoint(lat,lon));
+        this.location.add(geoPoint);
     }
-    public void addCycleLength(final float cycleLength)
-    {
-        if (this.cycleLength == null) {
-            this.cycleLength = new ArrayList<>(1);
-        }
-        this.cycleLength.add(cycleLength);
-    }
+
     public void addTimestamp(Date timestamp)
     {
         if (this.timestamp == null) {
@@ -229,15 +201,4 @@ public class GarminBike
         }
         this.timestamp.add(timestamp);
     }
-    public void addCycles(Short cycles)
-    {
-        if (this.cycles == null) {
-            this.cycles = new ArrayList<>(1);
-        }
-        this.cycles.add(cycles);
-    }
-
-
-
-
 }

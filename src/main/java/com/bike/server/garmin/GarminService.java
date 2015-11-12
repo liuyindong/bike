@@ -14,4 +14,6 @@ public interface GarminService
 {
 
     public UserBikeFitSession getBikeFitSession(InputStream in);
+
+    public UserBikeFitSession getBikeFitSession(String path);
 }

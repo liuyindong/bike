@@ -18,6 +18,14 @@ BikeApp.controller('OverviewController', function($rootScope,$stateParams, $scop
 
             $scope.location = data.garminBike.location;
 
+            $scope.bike = data;
+
+
+
+            var pointStart = $scope.location[0];
+
+            var marker = new AMap.Marker({position: [pointStart.lon, pointStart.lat]});
+
 
 
 
@@ -48,6 +56,8 @@ BikeApp.controller('OverviewController', function($rootScope,$stateParams, $scop
                 geodesic: true
             });
             initpolyline.setMap(initmap);
+            //添加起点
+            marker.setMap(initmap);
 
 
 
@@ -82,6 +92,7 @@ BikeApp.controller('OverviewController', function($rootScope,$stateParams, $scop
             }
 
 
+
             $('#haiba').highcharts({
 
                 chart:{animation:false},
@@ -94,14 +105,10 @@ BikeApp.controller('OverviewController', function($rootScope,$stateParams, $scop
 
 
                 xAxis: {
-                    gridLineColor: 'rgba(233, 233, 233, 0.7)',
-                    gridLineWidth: 1,
-                    title: {
-                        text: null
-                    },
+
                     labels: {
                         formatter: function() {
-                            return this.value/1000 + 'km';
+                            return this.value + 'km';
                         }
                     }
                 },
@@ -139,13 +146,19 @@ BikeApp.controller('OverviewController', function($rootScope,$stateParams, $scop
                         $.each(this.points, function (i,n) {
                             var idx = jQuery.inArray(this.point, this.series.data);
 
-                            console.log(idx);
+
+                            marker.setMap(null);
+
+                            var point = $scope.location[idx];
+
+                            marker = new AMap.Marker({position: [point.lon, point.lat]});
 
 
-                           /* s = '海拔: ' + this.y + 'm' + ' 距离: ' + Math.round(this.x/1000*10)/10 + 'km<br />坡度: ' + segmentdataArr[idx][2][1] + '% 时间: ' + sec2h(segmentdataArr[idx][2][0],1);
-                            map.removeOverlay(marker);//地图移动 覆盖物
-                            marker = new SquareOverlay(points[segmentdataArr[idx][2][2]],"activepoint");
-                            map.addOverlay(marker);*/
+                            marker.setMap(initmap);
+
+
+                           s = '海拔: ' + this.y + 'm' + ' 距离: ' + Math.round(this.x/1000*10)/10 + 'km<br />坡度: ' + data.garminBike.grade[idx] + '% 时间: ' + zhuanhuanTime(123,1);
+
                         });
                         return s;
                     },
@@ -157,7 +170,7 @@ BikeApp.controller('OverviewController', function($rootScope,$stateParams, $scop
                         animation: false,
                         events: {
                             mouseOut: function () {
-                               // initmap.removeOverlay(marker);
+                                marker.setMap(null);
                             }
                         }
                     }

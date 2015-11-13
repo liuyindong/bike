@@ -71,6 +71,8 @@ public class UserBikeFitSession
     private Integer totalCalories;
 
 
+
+
     @Field(
             type = FieldType.Date,
             index = FieldIndex.not_analyzed,

@@ -102,12 +102,7 @@ public class GarminBikeController extends ControllerBase implements RestAction {
 
         UserBikeFitSession userBikeFitSession = garminService.getBikeFitSession(config.getUploadFilePath() + "admin/2015-11-12-08-23-23.fit");
 
-        userBikeFitSession.getGarminBike().setLocation(null);
-        userBikeFitSession.getGarminBike().setHeartRate(null);
-        userBikeFitSession.getGarminBike().setAltitude(null);
-        userBikeFitSession.getGarminBike().setSpeed(null);
-        userBikeFitSession.getGarminBike().setPower(null);
-        userBikeFitSession.getGarminBike().setTemperature(null);
+
 
         return userBikeFitSession;
 

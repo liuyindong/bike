@@ -1,8 +1,15 @@
 package com.bike.entity.garmin;
 
+import com.garmin.fit.DateTime;
+import com.garmin.fit.LapMesg;
+import com.garmin.fit.RecordMesg;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.GeoPointField;
 import org.springframework.data.elasticsearch.core.geo.GeoPoint;
+import org.springframework.data.geo.Point;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,7 +38,10 @@ public class GarminBike
     private List<Byte> temperature;
     //海拔
     private List<Float> altitude;
+    //坡度
+    private List<Float> grade;
 
+    private List<Float> timeFromCourse;
     //坐标
     @GeoPointField
     private List<GeoPoint> location;
@@ -58,6 +68,21 @@ public class GarminBike
         this.timestamp = timestamp;
     }
 
+    public List<Float> getGrade() {
+        return grade;
+    }
+
+    public void setGrade(List<Float> grade) {
+        this.grade = grade;
+    }
+
+    public List<Float> getTimeFromCourse() {
+        return timeFromCourse;
+    }
+
+    public void setTimeFromCourse(List<Float> timeFromCourse) {
+        this.timeFromCourse = timeFromCourse;
+    }
 
     public List<GeoPoint> getLocation() {
         return location;
@@ -200,5 +225,19 @@ public class GarminBike
             this.timestamp = new ArrayList<>(1);
         }
         this.timestamp.add(timestamp);
+    }
+    public void addgrade(Float grade)
+    {
+        if (this.grade == null) {
+            this.grade = new ArrayList<>(1);
+        }
+        this.grade.add(grade);
+    }
+    public void addTimeFromCourse(Float timeFromCourse)
+    {
+        if (this.timeFromCourse == null) {
+            this.timeFromCourse = new ArrayList<>(1);
+        }
+        this.timeFromCourse.add(timeFromCourse);
     }
 }

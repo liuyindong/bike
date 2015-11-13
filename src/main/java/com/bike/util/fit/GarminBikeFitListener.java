@@ -85,8 +85,7 @@ public class GarminBikeFitListener implements  SessionMesgListener,RecordMesgLis
         garminBike.addCadence(recordMesg.getCadence() != null ? recordMesg.getCadence() : 0);
         garminBike.addTemperature(recordMesg.getTemperature() != null ? recordMesg.getTemperature() : 0);
         garminBike.addAltitude(recordMesg.getAltitude() != null ? recordMesg.getAltitude() : 0);
-
-
+        garminBike.addgrade(recordMesg.getGrade() != null ? recordMesg.getGrade() : 0);
 
     //    garminBike.addCycleLength(recordMesg.getCycleLength() != null ?recordMesg.getCycleLength() : 0);
     //    garminBike.addCycles(recordMesg.getCycles() != null ? recordMesg.getCycles() : 0);

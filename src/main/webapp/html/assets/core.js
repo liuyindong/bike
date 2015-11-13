@@ -33,3 +33,9 @@ SquareOverlay.prototype.draw = function(){
     this._div.style.top = position.y - this._length / 2 + "px";
 }
 
+function zhuanhuanTime(t,type){
+    var m = parseInt(t%3600/60) >= 10 ? parseInt(t%3600/60) : '0' + parseInt(t%3600/60);
+    var h = parseInt(t/3600);
+    var s = parseInt(t%60) >= 10 ? parseInt(t%60) : '0' + parseInt(t%60);
+    return type ? h + ":" + m + ':' + s : h + "小时" + m + "分钟" + s + '秒';
+}

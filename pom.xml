@@ -34,13 +34,21 @@
     <dependencies>
 
 
-        <!-- <dependency>
+       <!-- <dependency>
              <groupId>com.baidu.ueditor</groupId >
              <artifactId>ueditor</artifactId >
              <version>1.1.3</version >
              <scope>system</scope >
              <systemPath> ${basedir}/src/main/webapp/WEB-INF/lib/ueditor-1.1.3.jar</systemPath >
          </dependency>-->
+
+        <dependency>
+            <groupId>org.jdom</groupId>
+            <artifactId>jdom2</artifactId>
+            <version>2.0.6</version>
+        </dependency>
+
+
 
         <!--框架引入模板-->
         <dependency>
@@ -142,6 +150,12 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-expression</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jms</artifactId>
             <version>${spring.version}</version>
         </dependency>
 
@@ -467,15 +481,6 @@
 
     <build>
         <defaultGoal>package</defaultGoal>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>2.5.1</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -504,6 +509,7 @@
                 </configuration>
             </plugin>
         </plugins>
+
     </build>
 
     <profiles>
@@ -544,6 +550,7 @@
                     </releases>
                 </pluginRepository>
             </pluginRepositories>
+
         </profile>
     </profiles>
 

@@ -27,7 +27,10 @@ import java.util.Collection;
 public class MonitoringReaderExample implements MonitoringMesgListener  {
    private MesgCSVWriter mesgWriter;
 
-   public static void main(String[] args) {
+   public static void main(String[] aa)
+   {
+      String[] args = {"C:\\wamp\\www\\bike\\bike_admin\\uploadFile\\admin\\2015-11-12-08-23-23.fit","86400"};
+
       MonitoringReaderExample example = new MonitoringReaderExample();
       String inputFile;
       int interval;

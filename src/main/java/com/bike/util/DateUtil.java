@@ -127,6 +127,12 @@ public class DateUtil
 		double result = cha * 1.0 / (1000 * 60 * 60);
 		return result;
 	}
+	public static double jisuan(Date startTime, Date endTime) throws Exception
+	{
+		long cha = endTime.getTime() - startTime.getTime();
+		double result = cha * 1.0 / (1000 * 60 * 60);
+		return result;
+	}
 	public static void main(String[] args) throws Exception
 	{
 		String type = "yyyy-MM-dd-HH-mm";

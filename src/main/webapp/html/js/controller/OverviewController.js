@@ -1,10 +1,10 @@
 
-var BikeApp = angular.module("BikeApp",[]);
+var BikeApp = angular.module("BikeApp",['ngTable']);
 
 
 
 
-BikeApp.controller('OverviewController', function($rootScope,$stateParams, $scope, $http, $timeout) {
+BikeApp.controller('OverviewController', function($rootScope,$stateParams, $scope, $http, $timeout,ngTableParams) {
 
 
 
@@ -19,6 +19,14 @@ BikeApp.controller('OverviewController', function($rootScope,$stateParams, $scop
             $scope.location = data.garminBike.location;
 
             $scope.bike = data;
+
+
+            $scope.tableParams = new ngTableParams({}, {
+                dataset: data.lapBikeList
+            });
+            $scope.tableParams.count(50);
+
+
 
 
 
@@ -61,13 +69,8 @@ BikeApp.controller('OverviewController', function($rootScope,$stateParams, $scop
 
 
 
-
-
-
-            //添加地图类型切换插件
             initmap.plugin(["AMap.MapType"], function () {
-                //地图类型切换
-                type = new AMap.MapType({ defaultType: 0 }); //初始状态使用2D地图
+                type = new AMap.MapType({ defaultType: 0 });
                 initmap.addControl(type);
             });
 
@@ -82,14 +85,21 @@ BikeApp.controller('OverviewController', function($rootScope,$stateParams, $scop
             var haiBa = data.garminBike.altitude;
 
 
-
-            var maxaltitude = 0;
+            var maxaHaiBa = 0;
 
             for (var i = 0; i < haiBa.length; i++) {
-                if (haiBa[i] > maxaltitude){
-                    maxaltitude = haiBa[i];
+                if (haiBa[i] > maxaHaiBa){
+                    maxaHaiBa = haiBa[i];
                 }
             }
+
+            var haiBaArray = [];
+
+            $.each(data.garminBike.distance, function(i, n){
+                haiBaArray.push([n,data.garminBike.altitude[i]]);
+            });
+
+
 
 
 
@@ -107,7 +117,8 @@ BikeApp.controller('OverviewController', function($rootScope,$stateParams, $scop
                 xAxis: {
 
                     labels: {
-                        formatter: function() {
+                        formatter: function()
+                        {
                             return this.value + 'km';
                         }
                     }
@@ -129,7 +140,7 @@ BikeApp.controller('OverviewController', function($rootScope,$stateParams, $scop
                             color: '#666'
                         }
                     },
-                    max:maxaltitude
+                    max:maxaHaiBa
                 },
                 legend: {
                     enabled: false
@@ -156,8 +167,11 @@ BikeApp.controller('OverviewController', function($rootScope,$stateParams, $scop
 
                             marker.setMap(initmap);
 
+                            var time = data.garminBike.timestamp[idx] - data.startTime;
 
-                           s = '海拔: ' + this.y + 'm' + ' 距离: ' + Math.round(this.x/1000*10)/10 + 'km<br />坡度: ' + data.garminBike.grade[idx] + '% 时间: ' + zhuanhuanTime(123,1);
+
+
+                            s = '海拔: ' + this.y + 'm' + ' 距离: ' + this.x + 'km<br />坡度: ' + data.garminBike.grade[idx] + '% 时间: ' + zhuanhuanTime(time/1000,1);
 
                         });
                         return s;
@@ -189,7 +203,7 @@ BikeApp.controller('OverviewController', function($rootScope,$stateParams, $scop
                             }
                         }
                     },
-                    data: haiBa
+                    data: haiBaArray
                 }]
             });
 

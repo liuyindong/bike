@@ -32,7 +32,7 @@ BikeApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider,
 
 
     // Redirect any unmatched url
-    $urlRouterProvider.otherwise("/home");
+    $urlRouterProvider.otherwise("/activities/cf704bf0-3d90-4238-af98-30ae17924d0c/overview.html");
 
 
 

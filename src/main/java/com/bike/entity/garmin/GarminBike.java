@@ -40,8 +40,9 @@ public class GarminBike
     private List<Float> altitude;
     //坡度
     private List<Float> grade;
-
+    //骑行时间
     private List<Float> timeFromCourse;
+
     //坐标
     @GeoPointField
     private List<GeoPoint> location;

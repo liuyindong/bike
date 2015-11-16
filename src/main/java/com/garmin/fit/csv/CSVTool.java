@@ -30,7 +30,8 @@ import java.util.Arrays;
 import java.util.ArrayList;
 
 public class CSVTool {
-   public static void main(String args[]) {
+   public static void main(String args[])
+   {
       final int DATA_OR_DEFINITION_SEARCH_COUNT = 2;
       String in = "";
       String out = "";

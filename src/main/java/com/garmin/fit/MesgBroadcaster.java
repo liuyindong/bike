@@ -932,6 +932,7 @@ public class MesgBroadcaster implements MesgListener, MesgDefinitionListener {
             break;
          case MesgNum.RECORD:
             final RecordMesg recordMesg = new RecordMesg(mesg);
+
             for (final RecordMesgListener mesgListener : recordMesgListeners)
                mesgListener.onMesg(recordMesg);
             bufferedRecordMesgBroadcaster.onMesg(recordMesg);

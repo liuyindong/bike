@@ -1,131 +1,173 @@
 <style>
 
-    .badge {
+    .label{
 
         font-size:15px;
+    }
+    td{
+        text-align: center;
     }
 
 </style>
 
-<div class="panel panel-default" style="padding: 0">
-
-    <div class="panel-body row" >
-
-        <div class="col-sm-3 mailbox-left">
 
 
 
-        </div>
 
-        <div class="col-sm-9 mailbox-right">
 
-            <div class="col-md-12">
 
-                <div class="panel panel-default" style="padding: 0;margin-bottom:0">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">骑行记录</h3>
 
-                        <div class="panel-options">
+<div class="tabs-vertical-env">
 
-                            <a href="#" data-toggle="panel">
-                                <span class="collapse-icon">&ndash;</span>
-                                <span class="expand-icon">+</span>
-                            </a>
+    <ul class="nav tabs-vertical">
+        <li class="active"><a href="#v-home" data-toggle="tab">骑行概要</a></li>
+        <li ><a href="#v-profile" data-toggle="tab">间隔段</a></li>
+        <li><a href="#v-messages" data-toggle="tab">Messages</a></li>
+        <li><a href="#v-settings" data-toggle="tab">Settings</a></li>
+    </ul>
 
-                            <a href="#" data-toggle="remove">
-                                &times;
-                            </a>
+    <div class="tab-content" style="padding:0; ">
+        <div class="tab-pane active" id="v-home">
+
+            <div class="panel-default" style="padding: 0">
+
+                <div class="panel-body" >
+
+
+                    <div class="panel panel-default" style="padding: 0;margin-bottom:0">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">骑行记录</h3>
+
+                            <div class="panel-options">
+
+                                <a href="#" data-toggle="panel">
+                                    <span class="collapse-icon">&ndash;</span>
+                                    <span class="expand-icon">+</span>
+                                </a>
+
+                                <a href="#" data-toggle="remove">
+                                    &times;
+                                </a>
+                            </div>
                         </div>
+
+                        <div class="panel-body">
+
+
+                            <div class="col-sm-4">
+
+                                <div class="col-sm-6">总距离：{{bike.totalDistance}}</div>
+                                <div class="col-sm-6"></div>
+
+                            </div>
+
+                            <div class="col-sm-8">
+
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th width="20%">平均</th>
+                                        <th width="20%">最大</th>
+                                        <th width="40%"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>速度</td>
+                                        <td>{{bike.avgSpeed}}</td>
+                                        <td>{{bike.maxSpeed}}</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>心率</td>
+                                        <td>{{bike.avgHeartRate}}</td>
+                                        <td>{{bike.maxHeartRate}}</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>踏频</td>
+                                        <td>{{bike.avgCadence}}</td>
+                                        <td>{{bike.maxCadence}}</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>功率</td>
+                                        <td>{{bike.avgPower}}</td>
+                                        <td>{{bike.maxPower}}</td>
+
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+
+
+                        </div>
+
+
                     </div>
 
-                    <div class="panel-body">
 
 
-                        <div class="col-sm-4">
 
-                            <div class="col-sm-6">总距离：{{bike.totalDistance}}</div>
-                            <div class="col-sm-6"></div>
-
-                        </div>
-
-                        <div class="col-sm-8">
-
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th></th>
-                                    <th width="20%">平均</th>
-                                    <th width="20%">最大</th>
-                                    <th width="40%"></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>速度</td>
-                                    <td>42,17%</td>
-                                    <td>50%</td>
-                                    <td>
-                                        <div  class="sparkline"></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>心率</td>
-                                    <td>42,17%</td>
-                                    <td>50%</td>
-                                    <td>
-                                        <div  class="sparkline"></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>踏频</td>
-                                    <td>29,50%</td>
-                                    <td>26%</td>
-                                    <td>
-                                        <div  class="sparkline"></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>功率</td>
-                                    <td>28.33%</td>
-                                    <td>24%</td>
-                                    <td>
-                                        <div  class="sparkline"></div>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
+                    <div id="gpsGuiji" style="height: 200px;width: 100%;margin: 0 auto"></div>
 
 
-                        </div>
+                    <br />
+                    <br />
 
 
-                    </div>
+                    <div id="haiba" style="height: 200px;width: 100%;margin: 0 auto"></div>
 
 
                 </div>
-
             </div>
-
-            <div class="col-md-12">
-
-                <div id="gpsGuiji" style="height: 200px;width: 100%;margin: 0 auto""></div>
-
-            </div>
-
-            <div class="col-md-12">
-
-                <div id="haiba" style="height: 200px;width: 100%;margin: 0 auto"></div>
-
-            </div>
-
 
 
 
 
         </div>
+        <div class="tab-pane " id="v-profile">
+
+            <table class="table table-small-font table-bordered table-striped table-hover" ng-table="tableParams">
+
+                <tr ng-repeat="bileLap in $data">
+                    <td ng-bind="$index+1">1</td>
+                    <td data-title="'时间'" sortable="'totalTimerHHmmSS'">{{bileLap.totalTimerHHmmSS}}</td>
+                    <td data-title="'平均速度'" sortable="'avgSpeed'">{{bileLap.avgSpeed}}</td>
+                    <td data-title="'最大速度'" sortable="'maxSpeed'">{{bileLap.maxSpeed}}</td>
+                    <td data-title="'平均心率'" sortable="'avgHeartRate'">{{bileLap.avgHeartRate}}</td>
+                    <td data-title="'最大心率'" sortable="'maxHeartRate'">{{bileLap.maxHeartRate}}</td>
+                    <td data-title="'平均踏频'" sortable="'avgCadence'">{{bileLap.avgCadence}}</td>
+                    <td data-title="'最大踏频'" sortable="'maxCadence'">{{bileLap.maxCadence}}</td>
+                    <td data-title="'平均功率'" sortable="'avgPower'">{{bileLap.avgPower}}</td>
+                    <td data-title="'最大功率'" sortable="'maxPower'">{{bileLap.maxPower}}</td>
 
 
+                </tr>
+
+            </table>
+
+        </div>
+        <div class="tab-pane" id="v-messages">
+            <p>When be draw drew ye. Defective in do recommend suffering. House it seven in spoil tiled court. Sister others marked fat missed did out use. Alteration possession dispatched collecting instrument travelling he or on. Snug give made at spot or late that mr. </p>
+        </div>
+        <div class="tab-pane" id="v-settings">
+            <p>Luckily friends do ashamed to do suppose. Tried meant mr smile so. Exquisite behaviour as to middleton perfectly. Chicken no wishing waiting am. Say concerns dwelling graceful six humoured. Whether mr up savings talking an. Active mutual nor father mother exeter change six did all. </p>
+        </div>
     </div>
+
 </div>
+
+
+
+
+
+
+
+
+
 
 

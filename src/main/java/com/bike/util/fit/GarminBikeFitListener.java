@@ -1,6 +1,7 @@
 package com.bike.util.fit;
 
 
+import com.bike.util.DateUtil;
 import com.bike.util.WritePath;
 import com.bike.util.map.GaoDeGPS;
 import com.bike.entity.garmin.GarminBike;
@@ -11,9 +12,7 @@ import com.bike.util.MyConstants;
 import com.garmin.fit.*;
 import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 
 public class GarminBikeFitListener implements  SessionMesgListener,RecordMesgListener,LapMesgListener
@@ -77,6 +76,16 @@ public class GarminBikeFitListener implements  SessionMesgListener,RecordMesgLis
     @Override
     public void onMesg(RecordMesg recordMesg)
     {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(recordMesg.getTimestamp().getDate());
+
+        if(calendar.get(Calendar.SECOND) % 2 != 0)
+        {
+            return;
+        }
+
+        System.out.println(DateUtil.timeToString(recordMesg.getTimestamp().getDate()));
+
         garminBike.addTimestamp(recordMesg.getTimestamp().getDate());
         garminBike.addDistance(recordMesg.getDistance() != null ? MyConstants.mTokm(recordMesg.getDistance()) : 0);
         garminBike.addHeartRate(recordMesg.getHeartRate() != null ? recordMesg.getHeartRate() : 0);
@@ -86,6 +95,7 @@ public class GarminBikeFitListener implements  SessionMesgListener,RecordMesgLis
         garminBike.addTemperature(recordMesg.getTemperature() != null ? recordMesg.getTemperature() : 0);
         garminBike.addAltitude(recordMesg.getAltitude() != null ? recordMesg.getAltitude() : 0);
         garminBike.addgrade(recordMesg.getGrade() != null ? recordMesg.getGrade() : 0);
+        garminBike.addTimeFromCourse(recordMesg.getTimeFromCourse() != null ? recordMesg.getTimeFromCourse() : 0);
 
     //    garminBike.addCycleLength(recordMesg.getCycleLength() != null ?recordMesg.getCycleLength() : 0);
     //    garminBike.addCycles(recordMesg.getCycles() != null ? recordMesg.getCycles() : 0);
@@ -99,6 +109,7 @@ public class GarminBikeFitListener implements  SessionMesgListener,RecordMesgLis
     @Override
     public void onMesg(LapMesg mesg)
     {
+
         LapBike lapBike = new LapBike();
         lapBike.setTotalDistance(MyConstants.mTokm(mesg.getTotalDistance()));
         lapBike.setTotalTimerTime(mesg.getTotalTimerTime());

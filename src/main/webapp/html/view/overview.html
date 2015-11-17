@@ -4,9 +4,6 @@
 
         font-size:15px;
     }
-    td{
-        text-align: center;
-    }
 
 </style>
 
@@ -20,14 +17,14 @@
 <div class="tabs-vertical-env">
 
     <ul class="nav tabs-vertical">
-        <li class="active"><a href="#v-home" data-toggle="tab">骑行概要</a></li>
-        <li ><a href="#v-profile" data-toggle="tab">间隔段</a></li>
+        <li ><a href="#v-home" data-toggle="tab">骑行概要</a></li>
+        <li class="active"><a href="#v-profile" data-toggle="tab">间隔段</a></li>
         <li><a href="#v-messages" data-toggle="tab">Messages</a></li>
         <li><a href="#v-settings" data-toggle="tab">Settings</a></li>
     </ul>
 
     <div class="tab-content" style="padding:0; ">
-        <div class="tab-pane active" id="v-home">
+        <div class="tab-pane " id="v-home">
 
             <div class="panel-default" style="padding: 0">
 
@@ -129,25 +126,37 @@
 
 
         </div>
-        <div class="tab-pane " id="v-profile">
+        <div class="tab-pane active" id="v-profile">
 
-            <table class="table table-small-font table-bordered table-striped table-hover" ng-table="tableParams">
+            <table ng-table="tableParams" class="table table-condensed table-bordered table-hover" >
 
-                <tr ng-repeat="bileLap in $data">
-                    <td ng-bind="$index+1">1</td>
-                    <td data-title="'时间'" sortable="'totalTimerHHmmSS'">{{bileLap.totalTimerHHmmSS}}</td>
-                    <td data-title="'平均速度'" sortable="'avgSpeed'">{{bileLap.avgSpeed}}</td>
-                    <td data-title="'最大速度'" sortable="'maxSpeed'">{{bileLap.maxSpeed}}</td>
-                    <td data-title="'平均心率'" sortable="'avgHeartRate'">{{bileLap.avgHeartRate}}</td>
-                    <td data-title="'最大心率'" sortable="'maxHeartRate'">{{bileLap.maxHeartRate}}</td>
-                    <td data-title="'平均踏频'" sortable="'avgCadence'">{{bileLap.avgCadence}}</td>
-                    <td data-title="'最大踏频'" sortable="'maxCadence'">{{bileLap.maxCadence}}</td>
-                    <td data-title="'平均功率'" sortable="'avgPower'">{{bileLap.avgPower}}</td>
-                    <td data-title="'最大功率'" sortable="'maxPower'">{{bileLap.maxPower}}</td>
+                <tr class="ng-table-group" ng-repeat-start="group in $groups">
+                    <td colspan="10">
+                        <a href="" ng-click="group.$hideRows = !group.$hideRows">
+                            <span class="glyphicon" ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }"></span>
+                            <strong>{{ group.value }}</strong>
+                        </a>
+                    </td>
+                </tr>
+                <tr ng-hide="group.$hideRows" ng-repeat="bileLap in group.data" ng-repeat-end>
 
+
+                    <td>
+                        <input type="checkbox"/>
+                    </td>
+
+                    <td sortable="'totalDistance'" data-title="'距离'" groupable="'totalDistance'">{{bileLap.totalDistance}}</td>
+                    <td sortable="'totalTimerHHmmSS'" data-title="'时间'" groupable="'totalTimerHHmmSS'" ng-if="false">{{bileLap.totalTimerHHmmSS}}</td>
+                    <td sortable="'avgSpeed'" data-title="'平均速度'" groupable="'avgSpeed'">{{bileLap.avgSpeed}}</td>
+                    <td sortable="'maxSpeed'" data-title="'最大速度'" >{{bileLap.maxSpeed}}</td>
+                    <td sortable="'avgHeartRate'" data-title="'平均心率'">{{bileLap.avgHeartRate}}</td>
+                    <td sortable="'maxHeartRate'" data-title="'最大心率'">{{bileLap.maxHeartRate}}</td>
+                    <td sortable="'avgCadence'" data-title="'平均踏频'">{{bileLap.avgCadence}}</td>
+                    <td sortable="'maxCadence'" data-title="'最大踏频'" >{{bileLap.maxCadence}}</td>
+                    <td sortable="'avgPower'" data-title="'平均功率'">{{bileLap.avgPower}}</td>
+                    <td sortable="'maxPower'" data-title="'最大功率'">{{bileLap.maxPower}}</td>
 
                 </tr>
-
             </table>
 
         </div>
@@ -160,6 +169,7 @@
     </div>
 
 </div>
+
 
 
 

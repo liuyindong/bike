@@ -103,7 +103,9 @@ BikeApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider,
                             'js/controller/OverviewController.js',
                             'assets/core.js',
                             CDN_HOST + 'js/Highcharts-4.1.9/js/highcharts.js',
-                            CDN_HOST + 'js/Highcharts-4.1.9/js/modules/exporting.js'
+                            CDN_HOST + 'js/Highcharts-4.1.9/js/modules/exporting.js',
+                            'assets/bike/ngtable/ng-table.css',
+                            'assets/bike/ngtable/ng-table.js'
                         ]
 
                     });

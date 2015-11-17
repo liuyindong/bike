@@ -16,21 +16,24 @@ BikeApp.controller('OverviewController', function($rootScope,$stateParams, $scop
         $http.jsonp("/garmin/bikeMsgById/"+$stateParams.bikeId+"?jsonp=JSON_CALLBACK").success(function(data)
         {
 
-            $scope.location = data.garminBike.location;
-
             $scope.bike = data;
 
 
-            $scope.tableParams = new ngTableParams({}, {
+            $scope.tableParams = new ngTableParams({
+                group: "totalTimerHHmmSS"
+            }, {
                 dataset: data.lapBikeList
             });
+
             $scope.tableParams.count(50);
 
 
 
 
 
-            var pointStart = $scope.location[0];
+
+
+            /*var pointStart = $scope.bike.location[0];
 
             var marker = new AMap.Marker({position: [pointStart.lon, pointStart.lat]});
 
@@ -49,8 +52,8 @@ BikeApp.controller('OverviewController', function($rootScope,$stateParams, $scop
 
 
 
-            for (var i = 0; i < $scope.location.length; i++) {
-                satellitePolylineCoordinates.push(new AMap.LngLat($scope.location[i].lon, $scope.location[i].lat));
+            for (var i = 0; i < $scope.bike.location.length; i++) {
+                satellitePolylineCoordinates.push(new AMap.LngLat($scope.bike.location[i].lon, $scope.bike.location[i].lat));
             }
 
 
@@ -160,7 +163,7 @@ BikeApp.controller('OverviewController', function($rootScope,$stateParams, $scop
 
                             marker.setMap(null);
 
-                            var point = $scope.location[idx];
+                            var point = $scope.bike.location[idx];
 
                             marker = new AMap.Marker({position: [point.lon, point.lat]});
 
@@ -206,7 +209,7 @@ BikeApp.controller('OverviewController', function($rootScope,$stateParams, $scop
                     data: haiBaArray
                 }]
             });
-
+*/
 
 
         });
@@ -214,6 +217,11 @@ BikeApp.controller('OverviewController', function($rootScope,$stateParams, $scop
 
 
     }
+    $scope.checkBoxClick = function(aa)
+    {
+        alert(aa);
+    }
+
     $scope.loadMap();
 });
 
